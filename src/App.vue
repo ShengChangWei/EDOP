@@ -6,6 +6,9 @@
              <!-- 顶部工具栏 -->
              <List v-on:selectedComponent ="selectedComponent($event)" ></List>
            </div>
+            <div class="header-right">
+                <i class="fa fa-send-o" title="发布"></i>
+             </div>
           </div>
 
           <div class="edop-edit-main">
@@ -31,6 +34,7 @@
                         :key="childIndex"
                         :id="'id' + childNode.id"
                         :style="childNode.style"
+                        :prop="childNode.props"
                         draggable="true"
                         @dragstart.native="handleDragStart(item,childNode, $event)"
                          @dragenter="handleDragEnter(childNode, $event)"
@@ -43,25 +47,10 @@
                 </div>
               </div>
             </div>
+            <!-- 右侧配置 -->
             <div class="right-edit-main">
-                <h4>组件设置</h4>
-                <div>
-                  <el-form ref="form" label-position="left" label-width="80px">
-                    <el-form-item label="宽度">
-                      <el-input v-model="styleConfig.width"></el-input>
-                       <!-- <el-input v-model="styleConfig.width"></el-input> -->
-                    </el-form-item>
-                    <el-form-item label="高度">
-                      <el-input v-model="styleConfig.height"></el-input>
-                    </el-form-item>
-                     <el-form-item label="背景颜色">
-                        <el-color-picker></el-color-picker>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary">提交</el-button>
-                    </el-form-item>
-                  </el-form>                 
-                </div>
+              <Setting :config="curCtConfig"></Setting>
+              <el-button type="primary" plain @click="save">保存</el-button>
             </div>
           </div>
         </div>
@@ -96,9 +85,18 @@ export default {
       curPage: '',
       curComponentId: '',
       styleConfig: {
-        width: "200px",
+        width: '200px',
         height: '200px'
-      }
+      },
+      curCtConfig: {}
+
+//       props: {
+//  geoUrl: ' http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer',
+//           gisApiUrl: 'http://js.arcgis.com/3.23/',
+//           initExtent: { xmax: 116.39029888900006, xmin: 116.04209077900009, ymax: 40.161018230000025, ymin: 39.885287565000056 },
+//           initExtent1: { xmax: 12980277.986602597, xmin: 12934415.769631553, ymax: 4864627.423165954, ymin: 4841696.314680432 },
+//           showMapType: 'tdt'
+//       }
     }
   },
   methods: {
@@ -149,14 +147,13 @@ export default {
           width: event.style.width,
           height: event.style.height,
           'background-color': 'rgba(0,231,255,.11)',
-          'z-index':10
+          'z-index': 10
         },
-        prop: {
-
-        }
+        props: event.props
       }
       this.curComponentId = curInfo.id
       this.curPage.components.push(curInfo)
+      this.curCtConfig = curInfo
     },
     // 点击当前导航
     handlecurPage (event) {
@@ -164,15 +161,21 @@ export default {
       this.curPage = event
     },
     // 选择当前组件
-    clickCurComponent (canvas,node, event) {
+    clickCurComponent (canvas, node, event) {
       this.curComponentId = node.id
-     this.styleConfig.width = node.style.width
-     canvas.components.map((curComponent) => {
-       curComponent.style['z-index'] = 0;
-     })
-     node.style['z-index'] = 10
-
+      this.styleConfig.width = node.style.width
+      canvas.components.map((curComponent) => {
+        curComponent.style['z-index'] = 0
+      })
+      node.style['z-index'] = 10
+      // console.log(node)
+      this.curCtConfig = node
+      // console.log(curCtConfig)
     },
+    save() {
+     alert(JSON.stringify(this.canvasMap))
+      
+    }
   },
   computed: {
 
@@ -254,6 +257,20 @@ body {
                 background: url(https://img.alicdn.com/tfs/TB184VLcPfguuRjSspkXXXchpXa-14-14.png);
               }
           }
+        }
+      }
+
+      .header-right {
+        text-align: right;
+        display: inline-block;
+        font-size: 18px;
+        color: #fff;
+        position: absolute;
+        right: 60px;
+        top: 6px;
+        cursor: pointer;
+        &:hover {
+          color: #00baff;
         }
       }
     }
@@ -471,7 +488,6 @@ body {
         background: #1c1f25;
         position: relative;
         transition: width 0.25s ease-in-out;
-        padding: 10px;
         color: #fff;
 
         .el-form {

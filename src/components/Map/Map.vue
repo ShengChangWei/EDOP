@@ -15,16 +15,26 @@
 import esriLoader from 'esri-loader'
 export default {
   name: 'Map',
-  data() {
-      return {
-          initExtent: {xmax: 116.39029888900006, xmin: 116.04209077900009, ymax: 40.161018230000025, ymin: 39.885287565000056},
-          gisApiUrl: 'https://js.arcgis.com/3.23/',
-          geoUrl: 'https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer'
-      }
+  props: {
+
+  },
+  data () {
+    return {
+      initExtent: { xmax: 116.39029888900006, xmin: 116.04209077900009, ymax: 40.161018230000025, ymin: 39.885287565000056 },
+      gisApiUrl: 'https://js.arcgis.com/3.23/',
+      geoUrl: 'https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer'
+    }
   },
   mounted () {
+  },
 
+  methods: {
+    // 获得初始数据
+    getInitData () {
+
+    }
   }
+
 }
 </script>
 

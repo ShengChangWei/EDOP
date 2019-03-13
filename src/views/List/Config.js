@@ -36,16 +36,20 @@ let config = [
     title: '图表',
     children: [
       {
-        tag: 'Map',
+        tag: 'es-map',
         imgSrc: require('@/assets/images/map/map.jpg'),
         style: {
-          width: '1920px',
+          width: '1000px',
           height: '932px',
           left: '0px',
           top: '0px'
         },
         props: {
-
+          geoUrl: ' http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer',
+          gisApiUrl: 'http://js.arcgis.com/3.23/',
+          initExtent: { xmax: 116.39029888900006, xmin: 116.04209077900009, ymax: 40.161018230000025, ymin: 39.885287565000056 },
+          initExtent1: { xmax: 12980277.986602597, xmin: 12934415.769631553, ymax: 4864627.423165954, ymin: 4841696.314680432 },
+          showMapType: 'tdt'
         }
       }
     ]

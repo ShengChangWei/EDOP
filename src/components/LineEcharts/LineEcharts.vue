@@ -9,7 +9,7 @@ export default {
   name: 'LineEchcarts',
   data () {
     return {
-      testMsg:  '测试组件传值,哈哈组件传值成功',
+      testMsg: '测试组件传值,哈哈组件传值成功',
       chartData: {
         columns: ['日期', '访问用户', '下单用户', '下单率'],
         rows: [
